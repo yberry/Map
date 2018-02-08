@@ -8,6 +8,7 @@ public static class HexMetrics {
     public const float innerRadius = outerRadius * 0.866025404f;
     public const float solidFactor = 0.75f;
     public const float blendFactor = 1f - solidFactor;
+    public const float elevationStep = 5f;
 
     static Vector3[] corners =
     {
