@@ -16,10 +16,11 @@ public static class HexMetrics {
     public const int terraceSteps = terracesPerSlope * 2 + 1;
     public const float horizontalTerraceStepSize = 1f / terraceSteps;
     public const float verticalTerraceStepSize = 1f / (terracesPerSlope + 1);
-    public const float cellPerturbStrength = 4f;
+    public const float cellPerturbStrength = 0f; //4f;
     public const float noiseScale = 0.003f;
     public const float elevationPerturbStrength = 1.5f;
     public const int chunkSizeX = 5, chunkSizeZ = 5;
+    public const float streamBedElevationOffset = -1f;
 
     public static Texture2D noiseSource;
 
