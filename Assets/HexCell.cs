@@ -41,14 +41,7 @@ public class HexCell : MonoBehaviour {
             uiPosition.z = -position.y;
             uiRect.localPosition = uiPosition;
 
-            if (hasOutgoingRiver && elevation < this[outgoingRiver].elevation)
-            {
-                RemoveOutgoingRiver();
-            }
-            if (hasIncomingRiver && elevation > this[incomingRiver].elevation)
-            {
-                RemoveIncomingRiver();
-            }
+            ValidateRivers();
 
             for (int i = 0; i < roads.Length; i++)
             {
@@ -203,6 +196,7 @@ public class HexCell : MonoBehaviour {
                 return;
             }
             waterLevel = value;
+            ValidateRivers();
             Refresh();
         }
     }
@@ -289,6 +283,11 @@ public class HexCell : MonoBehaviour {
         neighbor.RefreshSelfOnly();
     }
 
+    bool IsValidRiverDestination(HexCell neighbor)
+    {
+        return neighbor && (elevation >= neighbor.elevation || waterLevel == neighbor.elevation);
+    }
+
     void RefreshSelfOnly()
     {
         chunk.Refresh();
@@ -308,7 +307,7 @@ public class HexCell : MonoBehaviour {
         }
 
         HexCell neighbor = this[direction];
-        if (!neighbor || elevation < neighbor.elevation)
+        if (!IsValidRiverDestination(neighbor))
         {
             return;
         }
@@ -327,6 +326,18 @@ public class HexCell : MonoBehaviour {
         neighbor.incomingRiver = direction.Opposite();
 
         SetRoad((int)direction, false);
+    }
+
+    void ValidateRivers()
+    {
+        if (hasOutgoingRiver && !IsValidRiverDestination(this[outgoingRiver]))
+        {
+            RemoveOutgoingRiver();
+        }
+        if (hasIncomingRiver && !this[incomingRiver].IsValidRiverDestination(this))
+        {
+            RemoveIncomingRiver();
+        }
     }
 
     public bool HasRoadThroughEdge(HexDirection direction)
