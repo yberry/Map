@@ -12,6 +12,7 @@ public class HexCell : MonoBehaviour {
     bool[] roads;
 
     int elevation = int.MinValue;
+    int waterLevel;
     Color color;
 
     bool hasIncomingRiver, hasOutgoingRiver;
@@ -161,7 +162,7 @@ public class HexCell : MonoBehaviour {
     {
         get
         {
-            return (elevation + HexMetrics.riverSurfaceElevationOffset) * HexMetrics.elevationStep;
+            return (elevation + HexMetrics.waterElevationOffset) * HexMetrics.elevationStep;
         }
     }
 
@@ -185,6 +186,40 @@ public class HexCell : MonoBehaviour {
                 }
             }
             return false;
+        }
+    }
+
+    public int WaterLevel
+    {
+        get
+        {
+            return waterLevel;
+        }
+
+        set
+        {
+            if (waterLevel == value)
+            {
+                return;
+            }
+            waterLevel = value;
+            Refresh();
+        }
+    }
+
+    public bool IsUnderwater
+    {
+        get
+        {
+            return waterLevel > elevation;
+        }
+    }
+
+    public float WaterSurfaceY
+    {
+        get
+        {
+            return (waterLevel + HexMetrics.waterElevationOffset) * HexMetrics.elevationStep;
         }
     }
 

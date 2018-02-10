@@ -23,7 +23,9 @@ public static class HexMetrics {
     public const float elevationPerturbStrength = 1.5f;
     public const int chunkSizeX = 5, chunkSizeZ = 5;
     public const float streamBedElevationOffset = -1.75f;
-    public const float riverSurfaceElevationOffset = -0.5f;
+    public const float waterElevationOffset = -0.5f;
+    public const float waterFactor = 0.6f;
+    public const float waterBlendFactor = 1f - waterFactor;
 
     public static Texture2D noiseSource;
 
@@ -58,9 +60,24 @@ public static class HexMetrics {
         return corners[(int)direction + 1] * solidFactor;
     }
 
+    public static Vector3 GetFirstWaterCorner(this HexDirection direction)
+    {
+        return corners[(int)direction] * waterFactor;
+    }
+
+    public static Vector3 GetSecondWaterCorner(this HexDirection direction)
+    {
+        return corners[(int)direction + 1] * waterFactor;
+    }
+
     public static Vector3 GetBridge(this HexDirection direction)
     {
         return (corners[(int)direction] + corners[(int)direction + 1]) * blendFactor;
+    }
+
+    public static Vector3 GetWaterBridge(this HexDirection direction)
+    {
+        return (corners[(int)direction] + corners[(int)direction + 1]) * waterBlendFactor;
     }
 
     public static Vector3 GetSolidEdgeMiddle(this HexDirection direction)
