@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
+using System.IO;
 
 public class HexMapEditor : MonoBehaviour {
 
@@ -10,6 +11,7 @@ public class HexMapEditor : MonoBehaviour {
 
     public HexGrid hexGrid;
 
+    int activeTerrainTypeIndex;
     int activeElevation;
     int activeWaterLevel;
     int activeUrbanLevel, activeFarmLevel, activePlantLevel;
@@ -97,6 +99,10 @@ public class HexMapEditor : MonoBehaviour {
     {
         if (cell)
         {
+            if (activeTerrainTypeIndex >= 0)
+            {
+                cell.TerrainTypeIndex = activeTerrainTypeIndex;
+            }
             if (applyElevation)
             {
                 cell.Elevation = activeElevation;
@@ -145,6 +151,11 @@ public class HexMapEditor : MonoBehaviour {
                 }
             }
         }
+    }
+
+    public void SetTerrainTypeIndex(int index)
+    {
+        activeTerrainTypeIndex = index;
     }
 
     public void SetElevation(float elevation)
@@ -220,5 +231,23 @@ public class HexMapEditor : MonoBehaviour {
     public void SetApplyPlantLevel(bool toggle)
     {
         applyPlantLevel = toggle;
+    }
+
+    public void Save()
+    {
+        string path = Path.Combine(Application.persistentDataPath, "test.map");
+        using (BinaryWriter writer = new BinaryWriter(File.Open(path, FileMode.Create)))
+        {
+            hexGrid.Save(writer);
+        }
+    }
+
+    public void Load()
+    {
+        string path = Path.Combine(Application.persistentDataPath, "test.map");
+        using (BinaryReader reader = new BinaryReader(File.OpenRead(path)))
+        {
+            hexGrid.Load(reader);
+        }
     }
 }

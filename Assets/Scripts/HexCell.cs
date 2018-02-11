@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.IO;
 
 public class HexCell : MonoBehaviour {
 
@@ -37,14 +38,8 @@ public class HexCell : MonoBehaviour {
                 return;
             }
             elevation = value;
-            Vector3 position = transform.localPosition;
-            position.y = value * HexMetrics.elevationStep;
-            position.y += (HexMetrics.SampleNoise(position).y * 2f - 1f) * HexMetrics.elevationPerturbStrength;
-            transform.localPosition = position;
 
-            Vector3 uiPosition = uiRect.localPosition;
-            uiPosition.z = -position.y;
-            uiRect.localPosition = uiPosition;
+            RefreshPosition();
 
             ValidateRivers();
 
@@ -299,6 +294,18 @@ public class HexCell : MonoBehaviour {
 
     #endregion
 
+    void RefreshPosition()
+    {
+        Vector3 position = transform.localPosition;
+        position.y = elevation * HexMetrics.elevationStep;
+        position.y += (HexMetrics.SampleNoise(position).y * 2f - 1f) * HexMetrics.elevationPerturbStrength;
+        transform.localPosition = position;
+
+        Vector3 uiPosition = uiRect.localPosition;
+        uiPosition.z = -position.y;
+        uiRect.localPosition = uiPosition;
+    }
+
     public HexEdgeType GetEdgeType(HexDirection direction)
     {
         return HexMetrics.GetEdgeType(elevation, neighbors[(int)direction].elevation);
@@ -452,5 +459,46 @@ public class HexCell : MonoBehaviour {
         neighbors[index].roads[(int)((HexDirection)index).Opposite()] = state;
         neighbors[index].RefreshSelfOnly();
         RefreshSelfOnly();
+    }
+
+    public void Save(BinaryWriter writer)
+    {
+        writer.Write((byte)terrainTypeIndex);
+        writer.Write((byte)elevation);
+        writer.Write((byte)waterLevel);
+        writer.Write((byte)urbanLevel);
+        writer.Write((byte)farmLevel);
+        writer.Write((byte)plantLevel);
+        writer.Write(walled);
+        writer.Write(hasIncomingRiver);
+        writer.Write((byte)incomingRiver);
+        writer.Write(hasOutgoingRiver);
+        writer.Write((byte)outgoingRiver);
+
+        foreach (bool road in roads)
+        {
+            writer.Write(road);
+        }
+    }
+
+    public void Load(BinaryReader reader)
+    {
+        terrainTypeIndex = reader.ReadByte();
+        elevation = reader.ReadByte();
+        RefreshPosition();
+        waterLevel = reader.ReadByte();
+        urbanLevel = reader.ReadByte();
+        farmLevel = reader.ReadByte();
+        plantLevel = reader.ReadByte();
+        walled = reader.ReadBoolean();
+        hasIncomingRiver = reader.ReadBoolean();
+        incomingRiver = (HexDirection)reader.ReadByte();
+        hasOutgoingRiver = reader.ReadBoolean();
+        outgoingRiver = (HexDirection)reader.ReadByte();
+
+        for (int i = 0; i < roads.Length; i++)
+        {
+            roads[i] = reader.ReadBoolean();
+        }
     }
 }

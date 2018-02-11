@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.IO;
 
 public class HexGrid : MonoBehaviour {
 
@@ -152,9 +153,29 @@ public class HexGrid : MonoBehaviour {
 
     public void ShowUI(bool visible)
     {
-        for (int i = 0; i < chunks.Length; i++)
+        foreach (HexGridChunk chunk in chunks)
         {
-            chunks[i].ShowUI(visible);
+            chunk.ShowUI(visible);
+        }
+    }
+
+    public void Save(BinaryWriter writer)
+    {
+        foreach (HexCell cell in cells)
+        {
+            cell.Save(writer);
+        }
+    }
+
+    public void Load(BinaryReader reader)
+    {
+        foreach (HexCell cell in cells)
+        {
+            cell.Load(reader);
+        }
+        foreach (HexGridChunk chunk in chunks)
+        {
+            chunk.Refresh();
         }
     }
 }
