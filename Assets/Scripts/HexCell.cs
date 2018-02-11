@@ -19,6 +19,7 @@ public class HexCell : MonoBehaviour {
     HexDirection incomingRiver, outgoingRiver;
 
     int urbanLevel, farmLevel, plantLevel;
+    bool walled;
 
     #region Properties
 
@@ -268,6 +269,23 @@ public class HexCell : MonoBehaviour {
             {
                 plantLevel = value;
                 RefreshSelfOnly();
+            }
+        }
+    }
+
+    public bool Walled
+    {
+        get
+        {
+            return walled;
+        }
+
+        set
+        {
+            if (walled != value)
+            {
+                walled = value;
+                Refresh();
             }
         }
     }
