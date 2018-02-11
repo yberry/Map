@@ -9249,7 +9249,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chunkCountX: 4
   chunkCountZ: 3
-  defaultColor: {r: 1, g: 1, b: 1, a: 1}
   cellPrefab: {fileID: 114751994948243842, guid: f6fe7e530ad82f547804408656dbb950,
     type: 2}
   cellLabelPrefab: {fileID: 114065552692212472, guid: fefde0badd65fee47a763c9d19f1bbff,
@@ -9258,6 +9257,12 @@ MonoBehaviour:
     type: 2}
   noiseSource: {fileID: 2800000, guid: 47664d79f4fdeae4eb7e76540bb99cd9, type: 3}
   seed: 1234
+  colors:
+  - {r: 1, g: 0.86274517, b: 0, a: 1}
+  - {r: 0.003921569, g: 0.6784314, b: 0.027450982, a: 1}
+  - {r: 0.07450981, g: 0.21960786, b: 0.83921576, a: 1}
+  - {r: 1, g: 0.30588236, b: 0.10588236, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
 --- !u!4 &1791666288
 Transform:
   m_ObjectHideFlags: 0

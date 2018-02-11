@@ -8,14 +8,11 @@ public class HexMapEditor : MonoBehaviour {
         Ignore, Yes, No
     }
 
-    public Color[] colors;
     public HexGrid hexGrid;
 
-    Color activeColor;
     int activeElevation;
     int activeWaterLevel;
     int activeUrbanLevel, activeFarmLevel, activePlantLevel;
-    bool applyColor;
     bool applyElevation = true;
     bool applyWaterLevel = true;
     bool applyUrbanLevel, applyFarmLevel, applyPlantLevel;
@@ -24,11 +21,6 @@ public class HexMapEditor : MonoBehaviour {
     bool isDrag;
     HexDirection dragDirection;
     HexCell previousCell;
-
-    private void Awake()
-    {
-        SelectColor(0);
-    }
 
     private void Update()
     {
@@ -105,10 +97,6 @@ public class HexMapEditor : MonoBehaviour {
     {
         if (cell)
         {
-            if (applyColor)
-            {
-                cell.Color = activeColor;
-            }
             if (applyElevation)
             {
                 cell.Elevation = activeElevation;
@@ -156,15 +144,6 @@ public class HexMapEditor : MonoBehaviour {
                     }
                 }
             }
-        }
-    }
-
-    public void SelectColor(int index)
-    {
-        applyColor = index >= 0;
-        if (applyColor)
-        {
-            activeColor = colors[index];
         }
     }
 

@@ -13,7 +13,7 @@ public class HexCell : MonoBehaviour {
 
     int elevation = int.MinValue;
     int waterLevel;
-    Color color;
+    int terrainTypeIndex;
 
     bool hasIncomingRiver, hasOutgoingRiver;
     HexDirection incomingRiver, outgoingRiver;
@@ -86,17 +86,24 @@ public class HexCell : MonoBehaviour {
     {
         get
         {
-            return color;
+            return HexMetrics.colors[terrainTypeIndex];
+        }
+    }
+
+    public int TerrainTypeIndex
+    {
+        get
+        {
+            return terrainTypeIndex;
         }
 
         set
         {
-            if (color == value)
+            if (terrainTypeIndex != value)
             {
-                return;
+                terrainTypeIndex = value;
+                Refresh();
             }
-            color = value;
-            Refresh();
         }
     }
 
