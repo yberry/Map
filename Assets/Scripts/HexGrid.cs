@@ -6,7 +6,6 @@ public class HexGrid : MonoBehaviour {
     public int chunkCountX = 4, chunkCountZ = 3;
 
     public Color defaultColor = Color.white;
-    public Color touchedColor = Color.magenta;
 
     public HexCell cellPrefab;
     public Text cellLabelPrefab;
@@ -15,18 +14,25 @@ public class HexGrid : MonoBehaviour {
 
     public Texture2D noiseSource;
 
+    public int seed;
+
     HexCell[] cells;
     int cellCountX, cellCountZ;
     HexGridChunk[] chunks;
 
     private void OnEnable()
     {
-        HexMetrics.noiseSource = noiseSource;
+        if (!HexMetrics.noiseSource)
+        {
+            HexMetrics.noiseSource = noiseSource;
+            HexMetrics.InitializeHashGrid(seed);
+        }
     }
 
     private void Awake()
     {
         HexMetrics.noiseSource = noiseSource;
+        HexMetrics.InitializeHashGrid(seed);
 
         cellCountX = chunkCountX * HexMetrics.chunkSizeX;
         cellCountZ = chunkCountZ * HexMetrics.chunkSizeZ;
