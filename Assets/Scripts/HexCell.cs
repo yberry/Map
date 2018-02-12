@@ -490,7 +490,10 @@ public class HexCell : MonoBehaviour {
         int roadFlags = 0;
         for (int i = 0; i < roads.Length; i++)
         {
-            roadFlags |= 1 << i;
+            if (roads[i])
+            {
+                roadFlags |= 1 << i;
+            }
         }
         writer.Write((byte)roadFlags);
     }
