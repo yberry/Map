@@ -630,7 +630,7 @@ GameObject:
   - component: {fileID: 102459691}
   - component: {fileID: 102459692}
   m_Layer: 5
-  m_Name: Toggle White
+  m_Name: Toggle Snow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -932,7 +932,7 @@ GameObject:
   - component: {fileID: 124661315}
   - component: {fileID: 124661316}
   m_Layer: 5
-  m_Name: Toggle Green
+  m_Name: Toggle Grass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2494,7 +2494,7 @@ GameObject:
   - component: {fileID: 273772934}
   - component: {fileID: 273772935}
   m_Layer: 5
-  m_Name: Toggle Yellow
+  m_Name: Toggle Sand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2969,7 +2969,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Ye
+  m_Text: Snd
 --- !u!222 &338767567
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3340,7 +3340,7 @@ GameObject:
   - component: {fileID: 421585836}
   - component: {fileID: 421585837}
   m_Layer: 5
-  m_Name: Toggle Orange
+  m_Name: Toggle Stone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4114,7 +4114,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Or
+  m_Text: Stn
 --- !u!222 &563038709
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7815,7 +7815,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Bl
+  m_Text: Md
 --- !u!222 &1119611303
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8307,7 +8307,7 @@ GameObject:
   - component: {fileID: 1191314227}
   - component: {fileID: 1191314228}
   m_Layer: 5
-  m_Name: Toggle Blue
+  m_Name: Toggle Mud
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10633,7 +10633,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Wh
+  m_Text: Sw
 --- !u!222 &1496306571
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10776,7 +10776,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Gr
+  m_Text: Grs
 --- !u!222 &1525228738
 CanvasRenderer:
   m_ObjectHideFlags: 0
