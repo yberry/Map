@@ -57,8 +57,6 @@ public static class HexMetrics {
         new float[] {0.4f, 0.6f, 0.8f}
     };
 
-    public static Color[] colors;
-
     public static Vector3 GetFirstCorner(this HexDirection direction)
     {
         return corners[(int)direction];
