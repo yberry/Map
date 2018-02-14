@@ -80,4 +80,9 @@ public struct HexCoordinates {
     {
         return X.ToString() + "\n" + Y.ToString() + "\n" + Z.ToString();
     }
+
+    public int DistanceTo(HexCoordinates other)
+    {
+        return (Mathf.Abs(x - other.x) + Mathf.Abs(Y - other.Y) + Mathf.Abs(z - other.z)) / 2;
+    }
 }

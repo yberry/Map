@@ -10,6 +10,7 @@ public class HexMapEditor : MonoBehaviour {
     }
 
     public HexGrid hexGrid;
+    public Material terrainMaterial;
 
     int activeTerrainTypeIndex;
     int activeElevation;
@@ -23,6 +24,12 @@ public class HexMapEditor : MonoBehaviour {
     bool isDrag;
     HexDirection dragDirection;
     HexCell previousCell;
+    bool editMode;
+
+    private void Awake()
+    {
+        ShowGrid(false);
+    }
 
     private void Update()
     {
@@ -51,7 +58,14 @@ public class HexMapEditor : MonoBehaviour {
             {
                 isDrag = false;
             }
-            EditCells(currentCell);
+            if (editMode)
+            {
+                EditCells(currentCell);
+            }
+            else
+            {
+                hexGrid.FindDistancesTo(currentCell);
+            }
             previousCell = currentCell;
         }
         else
@@ -173,11 +187,6 @@ public class HexMapEditor : MonoBehaviour {
         brushSize = (int)size;
     }
 
-    public void ShowUI(bool visible)
-    {
-        hexGrid.ShowUI(visible);
-    }
-
     public void SetRiverMode(int mode)
     {
         riverMode = (OptionalToggle)mode;
@@ -231,5 +240,23 @@ public class HexMapEditor : MonoBehaviour {
     public void SetApplyPlantLevel(bool toggle)
     {
         applyPlantLevel = toggle;
+    }
+
+    public void ShowGrid(bool visible)
+    {
+        if (visible)
+        {
+            terrainMaterial.EnableKeyword("GRID_ON");
+        }
+        else
+        {
+            terrainMaterial.DisableKeyword("GRID_ON");
+        }
+    }
+
+    public void SetEditMode(bool toggle)
+    {
+        editMode = toggle;
+        hexGrid.ShowUI(!toggle);
     }
 }

@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
+using System.Collections;
+using System.Collections.Generic;
 
 public class HexGrid : MonoBehaviour {
 
@@ -128,7 +130,6 @@ public class HexGrid : MonoBehaviour {
 
         Text label = Instantiate(cellLabelPrefab);
         label.rectTransform.anchoredPosition = new Vector2(position.x, position.z);
-        label.text = cell.coordinates.ToStringOnSeparateLines();
 
         cell.uiRect = label.rectTransform;
         cell.Elevation = 0;
@@ -191,6 +192,8 @@ public class HexGrid : MonoBehaviour {
 
     public void Load(BinaryReader reader, int header)
     {
+        StopAllCoroutines();
+
         int x = 20, z = 15;
         if (header >= 1)
         {
@@ -212,6 +215,72 @@ public class HexGrid : MonoBehaviour {
         foreach (HexGridChunk chunk in chunks)
         {
             chunk.Refresh();
+        }
+    }
+
+    public void FindDistancesTo(HexCell cell)
+    {
+        StopAllCoroutines();
+        StartCoroutine(Search(cell));
+    }
+
+    IEnumerator Search(HexCell cell)
+    {
+        foreach (HexCell c in cells)
+        {
+            c.Distance = int.MaxValue;
+        }
+
+        WaitForSeconds delay = new WaitForSeconds(1f / 60f);
+        List<HexCell> frontier = new List<HexCell>();
+        cell.Distance = 0;
+        frontier.Add(cell);
+        while (frontier.Count > 0)
+        {
+            yield return delay;
+            HexCell current = frontier[0];
+            frontier.RemoveAt(0);
+            for (HexDirection d = HexDirection.NE; d <= HexDirection.NW; d++)
+            {
+                HexCell neighbor = current[d];
+                if (neighbor == null)
+                {
+                    continue;
+                }
+                if (neighbor.IsUnderwater)
+                {
+                    continue;
+                }
+                HexEdgeType edgeType = current.GetEdgeType(neighbor);
+                if (edgeType == HexEdgeType.Cliff)
+                {
+                    continue;
+                }
+                int distance = current.Distance;
+                if (current.HasRoadThroughEdge(d))
+                {
+                    distance++;
+                }
+                else if (current.Walled != neighbor.Walled)
+                {
+                    continue;
+                }
+                else
+                {
+                    distance += edgeType == HexEdgeType.Flat ? 5 : 10;
+                    distance += neighbor.UrbanLevel + neighbor.FarmLevel + neighbor.PlantLevel;
+                }
+                if (neighbor.Distance == int.MaxValue)
+                {
+                    neighbor.Distance = distance;
+                    frontier.Add(neighbor);
+                }
+                else if (distance < neighbor.Distance)
+                {
+                    neighbor.Distance = distance;
+                }
+                frontier.Sort((x, y) => x.Distance.CompareTo(y.Distance));
+            }
         }
     }
 }
