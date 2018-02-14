@@ -312,6 +312,8 @@ public class HexCell : MonoBehaviour {
         }
     }
 
+    public HexCell NextWithSamePriority { get; set; }
+
     #endregion
 
     void RefreshPosition()
