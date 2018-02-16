@@ -3883,8 +3883,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hexGrid: {fileID: 1791666287}
   terrainMaterial: {fileID: 2100000, guid: 0b382acedf67378429d5da7bca2eb06f, type: 2}
-  unitPrefab: {fileID: 114702002608891026, guid: 2559489212fa6f640beff8afe0104d61,
-    type: 2}
 --- !u!114 &532275750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3955,7 +3953,7 @@ RectTransform:
   - {fileID: 224811555}
   - {fileID: 930664535}
   m_Father: {fileID: 1385591604}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -7242,6 +7240,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1783506507}
+        m_MethodName: SetEditMode
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_IsOn: 0
@@ -9757,6 +9766,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
+  - {fileID: 1783506506}
   - {fileID: 532275753}
   - {fileID: 1648844913}
   - {fileID: 1784333617}
@@ -11690,7 +11700,7 @@ RectTransform:
   m_Children:
   - {fileID: 334681070}
   m_Father: {fileID: 1385591604}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -12328,6 +12338,47 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1765762483}
+--- !u!1 &1783506505
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1783506506}
+  - component: {fileID: 1783506507}
+  m_Layer: 0
+  m_Name: Game UI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1783506506
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1783506505}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1385591604}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1783506507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1783506505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a970819bb5b88e64f877e611c2b8b161, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grid: {fileID: 1791666287}
 --- !u!1 &1784333616
 GameObject:
   m_ObjectHideFlags: 0
@@ -12359,7 +12410,7 @@ RectTransform:
   m_Children:
   - {fileID: 1938882721}
   m_Father: {fileID: 1385591604}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -12617,6 +12668,8 @@ MonoBehaviour:
   cellLabelPrefab: {fileID: 114065552692212472, guid: fefde0badd65fee47a763c9d19f1bbff,
     type: 2}
   chunkPrefab: {fileID: 114208011680743616, guid: 0a43d6ce7b48cde42abac8e540496ea6,
+    type: 2}
+  unitPrefab: {fileID: 114702002608891026, guid: 2559489212fa6f640beff8afe0104d61,
     type: 2}
   noiseSource: {fileID: 2800000, guid: 47664d79f4fdeae4eb7e76540bb99cd9, type: 3}
   seed: 1234

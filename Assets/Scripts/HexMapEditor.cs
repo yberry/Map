@@ -11,7 +11,6 @@ public class HexMapEditor : MonoBehaviour {
 
     public HexGrid hexGrid;
     public Material terrainMaterial;
-    public HexUnit unitPrefab;
 
     int activeTerrainTypeIndex;
     int activeElevation;
@@ -24,12 +23,12 @@ public class HexMapEditor : MonoBehaviour {
     OptionalToggle riverMode, roadMode, walledMode;
     bool isDrag;
     HexDirection dragDirection;
-    HexCell previousCell, searchFromCell, searchToCell;
-    bool editMode;
+    HexCell previousCell;
 
     private void Awake()
     {
         ShowGrid(false);
+        SetEditMode(false);
     }
 
     private void Update()
@@ -70,11 +69,8 @@ public class HexMapEditor : MonoBehaviour {
             {
                 isDrag = false;
             }
-            if (editMode)
-            {
-                EditCells(currentCell);
-            }
-            else if (Input.GetKey(KeyCode.LeftShift) && searchToCell != currentCell)
+            EditCells(currentCell);
+            /*else if (Input.GetKey(KeyCode.LeftShift) && searchToCell != currentCell)
             {
                 if (searchFromCell != currentCell)
                 {
@@ -97,7 +93,7 @@ public class HexMapEditor : MonoBehaviour {
                     searchToCell = currentCell;
                     hexGrid.FindPath(searchFromCell, searchToCell, 24);
                 }
-            }
+            }*/
             previousCell = currentCell;
         }
         else
@@ -201,13 +197,7 @@ public class HexMapEditor : MonoBehaviour {
 
     HexCell GetCellUnderCursor()
     {
-        Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(inputRay, out hit))
-        {
-            return hexGrid.GetCell(hit.point);
-        }
-        return null;
+        return hexGrid.GetCell(Camera.main.ScreenPointToRay(Input.mousePosition));
     }
 
     void CreateUnit()
@@ -215,10 +205,7 @@ public class HexMapEditor : MonoBehaviour {
         HexCell cell = GetCellUnderCursor();
         if (cell && !cell.Unit)
         {
-            HexUnit unit = Instantiate(unitPrefab);
-            unit.transform.SetParent(hexGrid.transform, false);
-            unit.Location = cell;
-            unit.Orientation = Random.Range(0f, 360f);
+            hexGrid.AddUnit(Instantiate(HexUnit.unitPrefab), cell, Random.Range(0f, 360f));
         }
     }
 
@@ -227,7 +214,7 @@ public class HexMapEditor : MonoBehaviour {
         HexCell cell = GetCellUnderCursor();
         if (cell && cell.Unit)
         {
-            cell.Unit.Die();
+            hexGrid.RemoveUnit(cell.Unit);
         }
     }
 
@@ -320,7 +307,6 @@ public class HexMapEditor : MonoBehaviour {
 
     public void SetEditMode(bool toggle)
     {
-        editMode = toggle;
-        hexGrid.ShowUI(!toggle);
+        enabled = toggle;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.IO;
 
 [System.Serializable]
 public struct HexCoordinates {
@@ -84,5 +85,20 @@ public struct HexCoordinates {
     public int DistanceTo(HexCoordinates other)
     {
         return (Mathf.Abs(x - other.x) + Mathf.Abs(Y - other.Y) + Mathf.Abs(z - other.z)) / 2;
+    }
+
+    public void Save(BinaryWriter writer)
+    {
+        writer.Write(x);
+        writer.Write(z);
+    }
+
+    public static HexCoordinates Load(BinaryReader reader)
+    {
+        HexCoordinates c = new HexCoordinates(
+            reader.ReadInt32(),
+            reader.ReadInt32()
+        );
+        return c;
     }
 }
