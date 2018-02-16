@@ -11,6 +11,7 @@ public class HexMapEditor : MonoBehaviour {
 
     public HexGrid hexGrid;
     public Material terrainMaterial;
+    public HexUnit unitPrefab;
 
     int activeTerrainTypeIndex;
     int activeElevation;
@@ -33,23 +34,34 @@ public class HexMapEditor : MonoBehaviour {
 
     private void Update()
     {
-        if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject())
+        if (!EventSystem.current.IsPointerOverGameObject())
         {
-            HandleInput();
+            if (Input.GetMouseButton(0))
+            {
+                HandleInput();
+                return;
+            }
+            if (Input.GetKeyDown(KeyCode.U))
+            {
+                if (Input.GetKey(KeyCode.LeftShift))
+                {
+                    DestroyUnit();
+                }
+                else
+                {
+                    CreateUnit();
+                }
+                return;
+            }
         }
-        else
-        {
-            previousCell = null;
-        }
+        previousCell = null;
     }
 
     void HandleInput()
     {
-        Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(inputRay, out hit))
+        HexCell currentCell = GetCellUnderCursor();
+        if (currentCell)
         {
-            HexCell currentCell = hexGrid.GetCell(hit.point);
             if (previousCell && previousCell != currentCell)
             {
                 ValidateDrag(currentCell);
@@ -184,6 +196,38 @@ public class HexMapEditor : MonoBehaviour {
                     }
                 }
             }
+        }
+    }
+
+    HexCell GetCellUnderCursor()
+    {
+        Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(inputRay, out hit))
+        {
+            return hexGrid.GetCell(hit.point);
+        }
+        return null;
+    }
+
+    void CreateUnit()
+    {
+        HexCell cell = GetCellUnderCursor();
+        if (cell && !cell.Unit)
+        {
+            HexUnit unit = Instantiate(unitPrefab);
+            unit.transform.SetParent(hexGrid.transform, false);
+            unit.Location = cell;
+            unit.Orientation = Random.Range(0f, 360f);
+        }
+    }
+
+    void DestroyUnit()
+    {
+        HexCell cell = GetCellUnderCursor();
+        if (cell && cell.Unit)
+        {
+            cell.Unit.Die();
         }
     }
 

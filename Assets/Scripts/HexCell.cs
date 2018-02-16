@@ -315,6 +315,8 @@ public class HexCell : MonoBehaviour {
 
     public int SearchPhase { get; set; }
 
+    public HexUnit Unit { get; set; }
+
     #endregion
 
     void RefreshPosition()
@@ -357,6 +359,11 @@ public class HexCell : MonoBehaviour {
                 {
                     neighbor.chunk.Refresh();
                 }
+            }
+
+            if (Unit)
+            {
+                Unit.ValidateLocation();
             }
         }
     }
@@ -403,6 +410,10 @@ public class HexCell : MonoBehaviour {
     void RefreshSelfOnly()
     {
         chunk.Refresh();
+        if (Unit)
+        {
+            Unit.ValidateLocation();
+        }
     }
 
     public void RemoveRiver()
