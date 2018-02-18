@@ -70,30 +70,7 @@ public class HexMapEditor : MonoBehaviour {
                 isDrag = false;
             }
             EditCells(currentCell);
-            /*else if (Input.GetKey(KeyCode.LeftShift) && searchToCell != currentCell)
-            {
-                if (searchFromCell != currentCell)
-                {
-                    if (searchFromCell)
-                    {
-                        searchFromCell.DisableHighlight();
-                    }
-                    searchFromCell = currentCell;
-                    searchFromCell.EnableHighlight(Color.blue);
-                    if (searchToCell)
-                    {
-                        hexGrid.FindPath(searchFromCell, searchToCell, 24);
-                    }
-                }
-            }
-            else if (searchFromCell && searchFromCell != currentCell)
-            {
-                if (searchFromCell != currentCell)
-                {
-                    searchToCell = currentCell;
-                    hexGrid.FindPath(searchFromCell, searchToCell, 24);
-                }
-            }*/
+
             previousCell = currentCell;
         }
         else
