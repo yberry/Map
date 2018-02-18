@@ -12,6 +12,7 @@ public class HexGameUI : MonoBehaviour {
     {
         enabled = !toggle;
         grid.ShowUI(!toggle);
+        grid.ClearPath();
     }
 
     bool UpdateCurrentCell()
@@ -27,6 +28,7 @@ public class HexGameUI : MonoBehaviour {
 
     void DoSelection()
     {
+        grid.ClearPath();
         UpdateCurrentCell();
         if (currentCell)
         {
@@ -42,6 +44,41 @@ public class HexGameUI : MonoBehaviour {
             {
                 DoSelection();
             }
+            else if (selectedUnit)
+            {
+                if (Input.GetMouseButtonDown(1))
+                {
+                    DoMove();
+                }
+                else
+                {
+                    DoPathfinding();
+                }
+            }
+        }
+    }
+
+    void DoPathfinding()
+    {
+        if (UpdateCurrentCell())
+        {
+            if (currentCell && selectedUnit.IsValidDestination(currentCell))
+            {
+                grid.FindPath(selectedUnit.Location, currentCell, 24);
+            }
+            else
+            {
+                grid.ClearPath();
+            }
+        }
+    }
+
+    void DoMove()
+    {
+        if (grid.HasPath)
+        {
+            selectedUnit.Location = currentCell;
+            grid.ClearPath();
         }
     }
 }

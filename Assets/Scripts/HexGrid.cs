@@ -25,6 +25,14 @@ public class HexGrid : MonoBehaviour {
     bool currentPathExists;
     List<HexUnit> units = new List<HexUnit>();
 
+    public bool HasPath
+    {
+        get
+        {
+            return currentPathExists;
+        }
+    }
+
     private void OnEnable()
     {
         if (!HexMetrics.noiseSource)
@@ -281,7 +289,7 @@ public class HexGrid : MonoBehaviour {
         currentPathTo.EnableHighlight(Color.red);
     }
 
-    void ClearPath()
+    public void ClearPath()
     {
         if (currentPathExists)
         {
@@ -333,7 +341,7 @@ public class HexGrid : MonoBehaviour {
                 {
                     continue;
                 }
-                if (neighbor.IsUnderwater)
+                if (neighbor.IsUnderwater || neighbor.Unit)
                 {
                     continue;
                 }
