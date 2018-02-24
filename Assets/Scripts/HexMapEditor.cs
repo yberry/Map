@@ -28,7 +28,8 @@ public class HexMapEditor : MonoBehaviour {
     private void Awake()
     {
         ShowGrid(false);
-        SetEditMode(false);
+        Shader.EnableKeyword("HEX_MAP_EDIT_MODE");
+        SetEditMode(true);
     }
 
     private void Update()
