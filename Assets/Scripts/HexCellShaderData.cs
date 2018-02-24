@@ -1,9 +1,17 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class HexCellShaderData : MonoBehaviour {
 
+    const float transitionSpeed = 255f;
+
     Texture2D cellTexture;
     Color32[] cellTextureData;
+    List<HexCell> transitioningCells = new List<HexCell>();
+    bool needsVisibilityReset;
+
+    public bool ImmediateMode { get; set; }
+    public HexGrid Grid { get; set; }
 
     public void Initialize(int x, int z)
     {
@@ -33,6 +41,7 @@ public class HexCellShaderData : MonoBehaviour {
                 cellTextureData[i] = new Color32(0, 0, 0, 0);
             }
         }
+        transitioningCells.Clear();
         enabled = true;
     }
 
@@ -45,15 +54,86 @@ public class HexCellShaderData : MonoBehaviour {
     public void RefreshVisibility(HexCell cell)
     {
         int index = cell.Index;
-        cellTextureData[index].r = (byte)(cell.IsVisible ? 255 : 0);
-        cellTextureData[index].g = (byte)(cell.IsExplored ? 255 : 0);
+        if (ImmediateMode)
+        {
+            cellTextureData[index].r = (byte)(cell.IsVisible ? 255 : 0);
+            cellTextureData[index].g = (byte)(cell.IsExplored ? 255 : 0);
+        }
+        else if (cellTextureData[index].b != 255)
+        {
+            cellTextureData[index].b = 255;
+            transitioningCells.Add(cell);
+        }
         enabled = true;
     }
 
     private void LateUpdate()
     {
+        if (needsVisibilityReset)
+        {
+            needsVisibilityReset = true;
+            Grid.ResetVisibility();
+        }
+
+        int delta = (int)(Time.deltaTime * transitionSpeed);
+        if (delta == 0)
+        {
+            delta = 1;
+        }
+        for (int i = 0; i <transitioningCells.Count; i++)
+        {
+            if (!UpdateCellData(transitioningCells[i], delta))
+            {
+                transitioningCells[i--] = transitioningCells[transitioningCells.Count - 1];
+                transitioningCells.RemoveAt(transitioningCells.Count - 1);
+            }
+        }
+
         cellTexture.SetPixels32(cellTextureData);
         cellTexture.Apply();
-        enabled = false;
+        enabled = transitioningCells.Count > 0;
+    }
+
+    bool UpdateCellData(HexCell cell, int delta)
+    {
+        int index = cell.Index;
+        Color32 data = cellTextureData[index];
+        bool stillUpdating = false;
+
+        if (cell.IsExplored && data.g < 255)
+        {
+            stillUpdating = true;
+            int t = data.g + delta;
+            data.g = (byte)(t >= 255 ? 255 : t);
+        }
+
+        if (cell.IsVisible)
+        {
+            if (data.r < 255)
+            {
+                stillUpdating = true;
+                int t = data.r + delta;
+                data.r = (byte)(t >= 255 ? 255 : t);
+            }
+        }
+        else if (data.r > 0)
+        {
+            stillUpdating = true;
+            int t = data.r - delta;
+            data.r = (byte)(t < 0 ? 0 : t);
+        }
+
+        if (!stillUpdating)
+        {
+            data.b = 0;
+        }
+        cellTextureData[index] = data;
+        return stillUpdating;
+    }
+
+    public void ViewElevationChanged()
+    {
+        needsVisibilityReset = true;
+        enabled = true;
     }
 }
