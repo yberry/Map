@@ -15,7 +15,7 @@ struct Interpolators {
 	float3 lightVec : TEXCOORD0;
 };
 
-Interpolators MyShadowVertexProgram(VertexData v) : SV_POSITION {
+Interpolators MyShadowVertexProgram(VertexData v) {
 	Interpolators i;
 	i.position = UnityObjectToClipPos(v.position);
 	i.lightVec = mul(unity_ObjectToWorld, v.position).xyz - _LightPositionRange.xyz;

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.44954085, g: 0.49657536, b: 0.55933475, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -129,7 +129,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!23 &147879015
 MeshRenderer:
@@ -143,7 +143,7 @@ MeshRenderer:
   m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
+  m_ReflectionProbeUsage: 2
   m_Materials:
   - {fileID: 2100000, guid: fa8da4f677e9d6b45b6fc987eba1e151, type: 2}
   m_StaticBatchInfo:
@@ -213,7 +213,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!23 &490291299
 MeshRenderer:
@@ -227,7 +227,7 @@ MeshRenderer:
   m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
+  m_ReflectionProbeUsage: 2
   m_Materials:
   - {fileID: 2100000, guid: fa8da4f677e9d6b45b6fc987eba1e151, type: 2}
   m_StaticBatchInfo:
@@ -297,7 +297,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &568492322
 Light:
   m_ObjectHideFlags: 0
@@ -363,7 +363,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!23 &632379798
 MeshRenderer:
@@ -377,7 +377,7 @@ MeshRenderer:
   m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
+  m_ReflectionProbeUsage: 2
   m_Materials:
   - {fileID: 2100000, guid: fa8da4f677e9d6b45b6fc987eba1e151, type: 2}
   m_StaticBatchInfo:
@@ -616,7 +616,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!108 &937611760
 Light:
   m_ObjectHideFlags: 0
@@ -847,7 +847,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!108 &1571944821
 Light:
   m_ObjectHideFlags: 0
@@ -897,6 +897,67 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &1724394776
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1724394778}
+  - component: {fileID: 1724394777}
+  m_Layer: 0
+  m_Name: Reflection Probe
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!215 &1724394777
+ReflectionProbe:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1724394776}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Type: 0
+  m_Mode: 1
+  m_RefreshMode: 0
+  m_TimeSlicingMode: 0
+  m_Resolution: 128
+  m_UpdateFrequency: 0
+  m_BoxSize: {x: 2.4018207, y: 2.047148, z: 2.6451225}
+  m_BoxOffset: {x: -0.027463555, y: -0.0730896, z: -0.47379887}
+  m_NearClip: 0.3
+  m_FarClip: 1000
+  m_ShadowDistance: 100
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IntensityMultiplier: 1
+  m_BlendDistance: 1
+  m_HDR: 1
+  m_BoxProjection: 1
+  m_RenderDynamicObjects: 0
+  m_UseOcclusionCulling: 1
+  m_Importance: 1
+  m_CustomBakedTexture: {fileID: 0}
+--- !u!4 &1724394778
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1724394776}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.188, y: 1.61, z: 1.699}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1750274751
 GameObject:
   m_ObjectHideFlags: 0
@@ -992,7 +1053,7 @@ MeshRenderer:
   m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
+  m_ReflectionProbeUsage: 2
   m_Materials:
   - {fileID: 2100000, guid: fa8da4f677e9d6b45b6fc987eba1e151, type: 2}
   m_StaticBatchInfo:
