@@ -11,10 +11,13 @@
 float4 _Tint;
 sampler2D _MainTex, _DetailTex;
 float4 _MainTex_ST, _DetailTex_ST;
+sampler2D _MetallicMap;
 float _Metallic;
 float _Smoothness;
 sampler2D _NormalMap, _DetailNormalMap;
 float _BumpScale, _DetailBumpScale;
+sampler2D _EmissionMap;
+float3 _Emission;
 
 struct Interpolators {
 	float4 pos : SV_POSITION;
@@ -32,6 +35,38 @@ struct Interpolators {
 	float3 vertexLightColor : TEXCOORD6;
 #endif
 };
+
+float GetMetallic(Interpolators i) {
+#if defined(_METALLIC_MAP)
+	return tex2D(_MetallicMap, i.uv.xy).r;
+#else
+	return _Metallic;
+#endif
+}
+
+float GetSmoothness(Interpolators i) {
+	float smoothness = 1;
+#if defined(_SMOOTHNESS_ALBEDO)
+	smoothness = tex2D(_MainTex, i.uv.xy).a;
+#elif defined(_SMOOTHNESS_METALLIC) && defined(_METALLIC_MAP)
+	smoothness = tex2D(_MetallicMap, i.uv.xy).a;
+#endif
+	return smoothness * _Smoothness;
+}
+
+float3 GetEmission(Interpolators i) {
+#if defined (FORWARD_BASE_PASS)
+
+#if defined (_EMISSION_MAP)
+	return tex2D(_EmissionMap, i.uv.xy) * _Emission;
+#else
+	return _Emission;
+#endif
+
+#else
+	return 0;
+#endif
+}
 
 struct VertexData {
 	float4 vertex : POSITION;
@@ -116,7 +151,7 @@ UnityIndirect CreateIndirectLight(Interpolators i, float3 viewDir) {
 	float3 reflectionDir = reflect(-viewDir, i.normal);
 	
 	Unity_GlossyEnvironmentData envData;
-	envData.roughness = 1 - _Smoothness;
+	envData.roughness = 1 - GetSmoothness(i);
 	envData.reflUVW = BoxProjection(reflectionDir, i.worldPos, unity_SpecCube0_ProbePosition, unity_SpecCube0_BoxMin, unity_SpecCube0_BoxMax);
 	float3 probe0 = Unity_GlossyEnvironment(UNITY_PASS_TEXCUBE(unity_SpecCube0), unity_SpecCube0_HDR, envData);
 	envData.reflUVW = BoxProjection(reflectionDir, i.worldPos, unity_SpecCube1_ProbePosition, unity_SpecCube1_BoxMin, unity_SpecCube1_BoxMax);
@@ -164,8 +199,10 @@ float4 MyFragmentProgram(Interpolators i) : SV_TARGET {
 
 	float3 specularTint;
 	float oneMinusReflectivity;
-	albedo = DiffuseAndSpecularFromMetallic(albedo, _Metallic, specularTint, oneMinusReflectivity);
+	albedo = DiffuseAndSpecularFromMetallic(albedo, GetMetallic(i), specularTint, oneMinusReflectivity);
 
-	return UNITY_BRDF_PBS(albedo, specularTint, oneMinusReflectivity, _Smoothness, i.normal, viewDir, CreateLight(i), CreateIndirectLight(i, viewDir));
+	float4 color = UNITY_BRDF_PBS(albedo, specularTint, oneMinusReflectivity, GetSmoothness(i), i.normal, viewDir, CreateLight(i), CreateIndirectLight(i, viewDir));
+	color.rgb += GetEmission(i);
+	return color;
 }
 #endif
